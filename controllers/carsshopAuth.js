@@ -107,6 +107,7 @@ const loginCarsShop = async (req, res) => {
 
 // signup a carsShop
 const signupCarsShop = async (req, res) => {
+ 
   const { email, password } = req.body;
   try {
     const carsShop = await CarsShop.signup(email, password);

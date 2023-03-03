@@ -8,7 +8,7 @@ const accesssSchema=new mongoose.Schema({
     color:String,
     desc:String,
     isExternal:Boolean,
-    owner:{type:mongoose.Schema.Types.ObjectId , ref:"accessShop"}
+    owner:{type:mongoose.Schema.Types.ObjectId , ref:"AccessoriesShop"}
 })
 
 accessModel=new mongoose.model("accesss",accesssSchema)

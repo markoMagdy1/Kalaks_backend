@@ -8,6 +8,7 @@ const schoolsSchema=new mongoose.Schema({
     phone:Number,
     price:Number,
     email:String,
+    desc:String
 })
 
 schoolsModel=new mongoose.model("schools",schoolsSchema)

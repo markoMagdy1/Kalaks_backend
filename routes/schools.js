@@ -38,6 +38,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       id: req.body.id,
       location: req.body.location,
       price: req.body.price,
+      desc:req.body.desc
     });
     try {
       newPost.save();
