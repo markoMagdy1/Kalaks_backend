@@ -6,7 +6,6 @@ require("dotenv").config();
 //express app
 const app = express();
 
-
 const usersRouter = require("./routes/user");
 const adminRouter = require("./routes/admin");
 const carsShopRouter = require("./routes/cars_shop");
@@ -16,7 +15,7 @@ const schoolsRouter = require("./routes/schools");
 const maintainRouter = require("./routes/maintain");
 const accessShopRouter = require("./routes/accessories_shop");
 const accessRouter = require("./routes/accessories");
-
+const cartRouter = require("./routes/cart");
 
 //middleware
 app.use(morgan("tiny"));
@@ -25,19 +24,19 @@ app.use(cookieParser());
 app.use("/", express.static("images"));
 
 //routes
-app.use("/users",usersRouter);
+app.use("/users", usersRouter);
 app.use("/admins", adminRouter);
 app.use("/carsshops", carsShopRouter);
 app.use("/newcars", carsnewRouter);
 app.use("/usedcars", carsusedRouter);
 app.use("/schools", schoolsRouter);
-app.use("/maintains",maintainRouter);
+app.use("/maintains", maintainRouter);
 app.use("/accessShops", accessShopRouter);
 app.use("/accessories", accessRouter);
-app.get("/", (req, res) => {  
-res.json({ mssg: "Welcom to the app" });
+app.use("/cart", cartRouter);
+app.get("/", (req, res) => {
+  res.json({ mssg: "Welcom to the app" });
 });
-
 
 //database connection
 mongoose.connect("mongodb://127.0.0.1:27017/gpproject", (err) => {
@@ -49,7 +48,6 @@ mongoose.connect("mongodb://127.0.0.1:27017/gpproject", (err) => {
 app.listen(process.env.PORT, () => {
   console.log(`listening on port`, process.env.PORT);
 });
-
 
 const cors = require("cors");
 // const corsOptions = {
