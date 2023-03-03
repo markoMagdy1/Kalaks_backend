@@ -36,7 +36,6 @@ router.post("/",upload.single('image'),async(req,res)=>{
     const newPost=await accessShopModel(
         {
             image: file.filename ,
-            id:req.body.id,
             name:req.body.name,
             password:req.body.password,
             location:req.body.location,
