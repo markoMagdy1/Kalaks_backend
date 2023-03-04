@@ -107,13 +107,13 @@ const loginCarsShop = async (req, res) => {
 
 // signup a carsShop
 const signupCarsShop = async (req, res) => {
- 
-  const { email, password } = req.body;
+
+  const { email, password, name, image } = req.body;
   try {
-    const carsShop = await CarsShop.signup(email, password);
+    const carsShop = await CarsShop.signup(email, password, name, image);
     // create a token
     const token = createToken(carsShop._id);
-    res.status(200).json({ email, token });
+    res.status(200).json({ email, token, name, image });
   } catch (error) {
     res.json({ error: error.message });
   }

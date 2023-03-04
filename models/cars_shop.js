@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const validator = require("validator");
 
 const carshopSchema = new mongoose.Schema({
-  image: Array,
+  image: String,
   id: Number,
   name: String,
   location: String,
@@ -25,7 +25,7 @@ const carshopSchema = new mongoose.Schema({
 
 
 // static signup method
-carshopSchema.statics.signup = async function (email, password) {
+carshopSchema.statics.signup = async function (email, password, name, image) {
   // validation
   if (!email || !password) {
     throw Error("All fields must be filled");
@@ -46,7 +46,7 @@ carshopSchema.statics.signup = async function (email, password) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
-  const carsShop = await this.create({ email, password: hash });
+  const carsShop = await this.create({ email, password: hash, name, image });
 
   return carsShop;
 };
