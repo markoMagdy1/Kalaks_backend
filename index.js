@@ -52,48 +52,55 @@ app.listen(process.env.PORT, () => {
 
 
 const cors = require("cors");
-// const corsOptions = {
-//   origin: "http://localhost:3000",
-//   optionsSuccessStatus: 200,
-// };
+const corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200,
+};
 
 app.use(cors());
 
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 
-const storeItems = new Map([
-  [1, { priceInCents: 10000, name: "Learn React Today" }],
-  [2, { priceInCents: 20000, name: "Learn CSS Today" }],
-]);
+app.post('/payments', async (req, res) => {
+  const { amount } = req.body;
 
-app.post("/payment", async (req, res) => {
   try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      line_items: req.body.items.map((item) => {
-        // const storeItem = accessories.findone(item._id);
-        // const storeItem= accessModel.findById({_id:item.id})
-
-        return {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: item.name,
-            },
-            unit_amount: item.price,
-          },
-          quantity: item.quantity,
-        };
-      }),
-      success_url: `http://localhost:3000/`,
-      // cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency: 'usd',
     });
-    res.json({ url: session.url });
-    // res.json({ url: session.url });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
+
+    res.status(200).send(paymentIntent.client_secret);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
+
+// app.post("/payment", async (req, res) => {
+//   try {
+//     const session = await stripe.checkout.sessions.create({
+//       payment_method_types: ["card"],
+//       mode: "payment",
+//       line_items: req.body.items.map((item) => {
+//         return {
+//           price_data: {
+//             currency: "usd",
+//             product_data: {
+//               name: item.name,
+//             },
+//             unit_amount: item.price,
+//           },
+//           quantity: item.quantity,
+//         };
+//       }),
+//       success_url: `http://localhost:3000/`,
+//       // cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
+//     });
+//     res.json({ url: session.url });
+//     // res.json({ url: session.url });
+//   } catch (e) {
+//     res.status(500).json({ error: e.message });
+//   }
+// });
 
