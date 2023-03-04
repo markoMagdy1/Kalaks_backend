@@ -5,7 +5,10 @@ router.use(express.json());
 const upload = require("../middleware/multer");
 // const userAuth = require("../controllers/userAuth");
 // controller functions
-const { loginUser, signupUser } = require("../controllers/userAuth");
+const {
+  loginUser,
+  signupUser,
+} = require("../controllers/userAuth");
 
 router.get("/", async (req, res) => {
   try {
@@ -82,5 +85,6 @@ router.post("/login", loginUser);
 
 // signup route
 router.post("/signup", signupUser);
+
 
 module.exports = router;

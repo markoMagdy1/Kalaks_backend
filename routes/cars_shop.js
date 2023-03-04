@@ -28,13 +28,13 @@ router.get("/:id", async (req, res) => {
     res.json(error);
   }
 });
-router.post("/", upload.array("image",12), async (req, res) => {
-  const { files } = req;
-  const  images = files.map(e => 
-    e.filename 
-  );
+router.post("/", async (req, res) => {
+  const { file } = req;
+  // const  images = file.map(e => 
+  //   e.filename 
+  // );
   const newPost = await carshopsModel({
-    image: images,
+    image: req.body.image,
     id: req.body.id,
     name: req.body.name,
     password: req.body.password,
@@ -47,9 +47,9 @@ router.post("/", upload.array("image",12), async (req, res) => {
   try {
     newPost.save();
     res.json({
-      newPost,
-      files: files,
-      path: files.originalname,
+      newPost
+      // file: file,
+      // path: file.originalname,
     });
   } catch (error) {
     res.json(error);
